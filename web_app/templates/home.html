@@ -3,20 +3,92 @@
 
 <style type='text/css'>
     * {
-        padding: 0;
+        padding: 10;
         margin: 0;
-        font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+        font-family: 'Times New Roman', Times, serif;
     }
 
+    .logo {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 250px;
+        height: 90px;
+    }
+
+    .left-place {
+        position: absolute;
+        top: 220px;
+        left: 30px;
+    }
+
+    .label-place {
+        color: #DF98CA;
+        font-weight: bold;
+        font-size: 30px;
+    }
+
+    .custom-select {
+        width: auto;
+        height: auto;
+        padding: 5px;
+        border: 2px solid #DF98CA;
+        color: #DF98CA;
+        font-weight: bold;
+        font-size: 18px;
+        text-align: left;
+    }
+
+    .clothes {
+        position: absolute;
+        left: 50px;
+        top: 450px;
+        color: #DF98CA;
+    }
+
+    .right-place {
+        position: absolute;
+        top: 30px;
+        right: 35px;
+    }
+
+    .custom-container {
+        display: flex;
+        align-items: center;
+    }
+
+    .custom-container img {
+        margin-right: 10px;
+    }
+
+    .feedback {
+        position: absolute;
+        left: 35px;
+        bottom: 15px;
+    }
+
+    .custom-button {
+        margin-top: 50px;
+        width: 240px;
+        color: #DF98CA;
+        font-weight: bold;
+        font-size: x-large;
+        border: 2px solid #DF98CA; 
+    }
+
+    .custom-button:hover {
+        background-color: white;
+    }
 
     body {
-        /* background-image: url('https://cutewallpaper.org/21/1920-x-1080-gif/1920x1080-Wallpapercartoon-Wallpapers-Driverlayer-Search-.gif'); */
+        background-image: url("{{ url_for('static', filename='images/background.jpg') }}");
+        background-repeat: no-repeat;
         background-size: cover;
-        font-family: sans-serif;
-        margin-top: 40px;
+        font-family: 'Times New Roman', Times, serif;
+        /* margin-top: 40px;
         height: 100vh;
         padding: 0;
-        margin: 0;
+        margin: 0; */
     }
 
 </style>
@@ -26,88 +98,74 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="web_app" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous"/>
     <title>Fashion Forecast</title>
 </head>
 
 <body>
-
-    <div class='mt-3 text-center'>
-        <h1 style="width: auto;margin: auto;color: black;padding: 11px;font-size: 44px;">Today's Recommendation</h1>
-    </div>
-
-    <div class='mt-3 text-center'>
-        <h3 style="font-size: 22px;color:black;">{{ context.datetoday }} | <span id="clock"></span></h3>
-    </div>
-
     {% if context.mess%}
     <p class="text-center" style="color: red;font-size: 20px;">{{ context.mess }}</p>
     {% endif %}
 
-    <!-- <div class="row text-center" style="padding: 20px;margin: 20px;">
+    <img class="logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+    
+    <div class="left-place text-center">
+        <form action="/" method="post">
+            <label class="label-place" for="places"> Choose the place!</label><br>
+            <select name="place" id="place" class="custom-select">
+                {% for place in context.places %} 
+                    {% if place == context.selected_place %}
+                    <option  value="{{ place }}" selected>{{ place | upper }}</option>
+                    {% else %}
+                    <option  value="{{ place }}">{{ place | upper }}</option>
+                    {% endif %}
+                    {% endfor %}
+            </select><br>
+            <input class="text-center custom-button" type="submit" value="Get recommendation!">
+        </form>            
+    </div>
 
-        <div class="col"
-            style="border-radius: 20px;padding: 0px;background-color:rgb(211,211,211,0.5);margin:0px 10px 10px 10px;min-height: 400px;">
-            <h2 style="border-radius: 20px 20px 0px 0px;background-color: #0b4c61;color: white;padding: 10px;">Today's
-                Attendance <i class="material-icons">assignment</i></h2>
-            <a style="text-decoration: none;max-width: 300px;" href="/start">
-                <button
-                    style="font-size: 24px;font-weight: bold;border-radius: 10px;width:490px;padding: 10px;margin-top: 30px;margin-bottom: 30px;"
-                    type='submit' class='btn btn-primary'>Take Attendance <i
-                        class="material-icons">beenhere</i></button>
-            </a>
-            <table style="background-color: white;">
-                <tr>
-                    <td><b>No</b></td>
-                    <td><b>Name</b></td>
-                    <td><b>ID</b></td>
-                    <td><b>Time</b></td>
-                </tr>
-                {% if context.length %}
+    {% if context.clothes %}
+    <div class="clothes">
+        <h2 style="font-weight: bold;">For today: </h2>
+        <ul>
+            {% for item in context.clothes %} 
+            <li style="font-size: x-large;"> {{ item | upper }} </li>
+            {% endfor %}
+        </ul>   
+    </div>
+    {% endif %}
 
-                {% for i in range(context.length) %}
-                <tr>
-                    <td>{{ i+1 }}</td>
-                    <td>{{ context.names[i] }}</td>
-                    <td>{{ context.ids[i] }}</td>
-                    <td>{{ context.times[i] }}</td>
-                </tr>
-                {% endfor %}
-                {% endif %}
-            </table>
-
+    <div class='mt-3 text-center'>
+        <h1 style="width: auto;margin: auto;color: black;padding: 11px;font-size: 50px;font-weight: bold;">Today's Recommendation</h1>
+    </div>
+    <div class="text-center right-place">
+        <div>
+            <h3 style="font-size: 25px;color:black;">{{ context.datetoday }} | <span id="clock"></span></h3>
         </div>
-
-        <div class="col"
-            style="border-radius: 20px;padding: 0px;background-color:rgb(211,211,211,0.5);margin:0px 10px 10px 10px;height: 400px;">
-            <form action='/add' method="POST" enctype="multipart/form-data">
-                <h2 style="border-radius: 20px 20px 0px 0px;background-color: #0b4c61;color: white;padding: 10px;">Add
-                    New User <i class="material-icons">control_point_duplicate</i></h2>
-                <label style="font-size: 20px;"><b>Enter New User Name*</b></label>
-                <br>
-                <input type="text" id="newusername" name='newusername'
-                    style="font-size: 20px;margin-top:10px;margin-bottom:10px;" required>
-                <br>
-                <label style="font-size: 20px;"><b>Enter New User Id*</b></label>
-                <br>
-                <input type="number" id="newusereid" name='newuserid'
-                    style="font-size: 20px;margin-top:10px;margin-bottom:10px;" required>
-                <br>
-                <button style="width: 232px;margin-top: 20px;font-size: 20px;" type='submit' class='btn btn-dark'>Add
-                    New User
-                </button>
-                <br>
-                <h5 style="padding: 25px;"><i>Total Users in Database: {{context.totalreg}}</i></h5>
-            </form>
+        <div>
+            <div class="custom-container">
+                <img src="{{ context.icon }}" width="90px" height="auto" alt="Icon">
+                <h3 style="font-weight: bold;">{{ context.condition }}</h3>
+                <!-- <h4>{{ context.temperature }}&deg; C</h4> -->
+            </div>
+            {% if context.accessory %}
+                <h3 style="font-weight: bold;">{{ context.accessory }}</h3>
+            {% endif %}
         </div>
+    </div>
 
-    </div> -->
+    <div class="feedback">
+        <h3 style="font-weight: bold;">Give us your <a style="color: #DF98CA;" target="_blank" href="https://forms.gle/DMuXRysAFxeMJ3yX9">feedback</a>!</h3>
+    </div>
 
     <script type="text/javascript">
         var clockElement = document.getElementById('clock');
