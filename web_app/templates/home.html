@@ -153,12 +153,12 @@
         </div>
         <div>
             <div class="custom-container">
-                <img src="{{ context.icon }}" width="90px" height="auto" alt="Icon">
-                <h3 style="font-weight: bold;">{{ context.condition }}</h3>
-                <!-- <h4>{{ context.temperature }}&deg; C</h4> -->
+                <img src="{{ context.icon }}" width="90px" height="auto" alt="Icon" style="margin-left: 50px;">
+                <h4>{{ context.temperature }}&deg; C</h4>
             </div>
+            <h3>{{ context.condition }}</h3><br>
             {% if context.accessory %}
-                <h3 style="font-weight: bold;">{{ context.accessory }}</h3>
+                <h2 style="font-weight: bold; color: #DF98CA;">{{ context.accessory }}</h2>
             {% endif %}
         </div>
     </div>

@@ -105,7 +105,7 @@ def home():
         'places': CATEGORICAL_DATA.get('Place').keys()
     }
 
-    if 'sunny' in condition.lower():
+    if 'sunny' in condition.lower() or 'partly cloudy' in condition.lower():
         context['accessory'] = 'Take your sunglasses!'
     elif 'overcast' in condition.lower() or 'rain' in condition.lower() or rain == 1:
         context['accessory'] = 'Take your umbrella!'
