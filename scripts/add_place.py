@@ -1,8 +1,8 @@
 import csv
 import datetime
 
-with open('weather.csv','r') as csvinput:
-    with open('final_weather.csv', 'w') as csvoutput:
+with open('../datasets/weather_rain_condition.csv','r') as csvinput:
+    with open('../datasets/final_weather.csv', 'w') as csvoutput:
         writer = csv.writer(csvoutput, lineterminator='\n')
         reader = csv.reader(csvinput)
 

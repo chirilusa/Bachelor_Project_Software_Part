@@ -1,9 +1,9 @@
 import csv
 import re
 
-with open('final_weather.csv', 'r') as weather:
-    with open('clothes_recommendation.csv', 'r') as clothes:
-        with open('final_dataset.csv', 'w') as final:
+with open('../datasets/final_weather.csv', 'r') as weather:
+    with open('../datasets/clothes_recommendation.csv', 'r') as clothes:
+        with open('../final_dataset.csv', 'w') as final:
             writer = csv.writer(final, lineterminator='\n')
             w_reader = csv.reader(weather)
             c_reader = csv.reader(clothes)
@@ -19,7 +19,7 @@ with open('final_weather.csv', 'r') as weather:
                     # If weather condition contains clothes condition
                     if re.search(c_row[0], w_row[4], re.IGNORECASE):
                         # Weather place is the same with clothes place
-                        if w_row[8] == c_row[1]:
+                        if w_row[-1] == c_row[1]:
                             interval = list(map(int, c_row[2].split(":")))
                             wt = float(w_row[3])
                             # Weather temperature between condition interval temperature
