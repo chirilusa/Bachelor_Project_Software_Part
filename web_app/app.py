@@ -83,13 +83,15 @@ def home():
     datetoday = get_api_data()["last_updated"][0:10]
     icon = get_api_data().get('condition').get('icon')
     
-    # Citire senzor BMP280 
+    # Citire senzor DHT22 
     temperature_c_dht, humidity = read_dht22_sensor()
-
     # Citire senzor BMP280 
     temperature_c_bmp, pressure_hpa = read_bmp280_sensor()
-    
+
     temperature = round((temperature_c_bmp + temperature_c_dht)/2.0, 1)
+
+    # Citire senzor de ploaie 
+    rain = read_rain_sensor()
 
     condition = get_api_data().get('condition').get('text')
     
@@ -104,15 +106,12 @@ def home():
 
     if 'sunny' in condition.lower():
         context['accessory'] = 'Take your sunglasses!'
-    elif 'cloud' in condition.lower() or 'overcast' in condition.lower() or 'rain' in condition.lower():
+    elif 'cloud' in condition.lower() or 'overcast' in condition.lower() or 'rain' in condition.lower() or rain == 1:
         context['accessory'] = 'Take your umbrella!'
 
     if request.method == 'POST':
         # Citire senzor VEML6070 
         uv_index = read_veml6070_sensor()
-
-        # Citire senzor de ploaie 
-        rain = read_rain_sensor()
 
         selected_place = request.form.get('place')
         context['selected_place'] = selected_place
