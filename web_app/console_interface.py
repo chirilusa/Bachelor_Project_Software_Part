@@ -92,12 +92,12 @@ def main():
 
     c_encoded = CONDITION_CATEGORICAL['Condition'][condition]
     place_encoded = PLACE_CATEGORICAL['Place'][place]
-    X = np.array([temperature, c_encoded, pressure_hpa, humidity, uv_index, rain, place_encoded])
+    X = np.array([temperature, pressure_hpa, humidity, uv_index, rain, place_encoded])
     X = X.reshape(1, -1)
     y = model.predict(X)
     clothes = list(CLOTHES_CATEGORICAL['Clothes'].keys())[y[0]-1]
     
-    print("Temp={:.2f}*C  Humidity={:.2f}% UV Index={} BMP Press={:.2f} Rain={}".format(temperature, humidity, uv_index, pressure_hpa, rain))
+    print("Temp={:.2f}*C  Humidity={:.2f}% UV Index={} BMP Press={:.2f}hPa Rain={}".format(temperature, humidity, uv_index, pressure_hpa, rain))
     print(clothes)
 
 if __name__ == '__main__':

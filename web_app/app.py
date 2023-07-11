@@ -89,11 +89,12 @@ def home():
     # Citire senzor BMP280 
     temperature_c_bmp, pressure_hpa = read_bmp280_sensor()
 
-    temperature = round((temperature_c_bmp + temperature_c_dht)/2.0, 1)
+    # temperature = round((temperature_c_bmp + temperature_c_dht)/2.0, 1)
 
     # Citire senzor de ploaie 
     rain = read_rain_sensor()
 
+    temperature = get_api_data().get('temp_c')
     condition = get_api_data().get('condition').get('text')
     
     context = {
@@ -122,7 +123,7 @@ def home():
         else:
             place_encoded = CATEGORICAL_DATA['Place']['home']
 
-        print("\nTemp={:.2f}*C  Humidity={:.2f}% UV Index={} BMP Press={:.2f} Rain={}\n".format(temperature, humidity, uv_index, pressure_hpa, rain))
+        print("\nTemp={:.2f}*C  Humidity={:.2f}%  UV Index={}  BMP Press={:.2f}hPa  Rain={}\n".format(temperature, humidity, uv_index, pressure_hpa, rain))
 
         X = np.array([temperature, pressure_hpa, humidity, uv_index, rain, place_encoded])
         X = X.reshape(1, -1)
